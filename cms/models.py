@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.db.models import permalink
 from markdown import markdown
 from django.utils import timezone
+from DjangoUeditor.models import UEditorField
+
 VIEWABLE_STATUS=[3,4]
 
 
@@ -25,7 +27,9 @@ class Story(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField()
     category = models.ForeignKey("Category")
-    makedown_content = models.TextField()
+    makedown_content = UEditorField('内容', height=300, width=1000,
+        default=u'', blank=True, imagePath="uploads/images/",
+        toolbars='besttome', filePath='uploads/files/')
     html_content = models.TextField(editable=False)
     owner = models.ForeignKey(User)
     status = models.IntegerField(choices=STATUS_CHOICES,default=1)
